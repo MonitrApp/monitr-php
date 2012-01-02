@@ -6,12 +6,12 @@ How to use
 ---
 
 
-** Setup: **
+**Setup:**
 
     Monitr::getInstance()->init( <api_key>, <domain>, <registerErrorHandler = true>, <registerShutdownFunction = true> );
 
 
-** Log an error: **
+**Log an error:**
 
 
 File & Line are automatically collected through debug_backgtrace().
