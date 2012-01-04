@@ -2,14 +2,14 @@
 /**
  * MonitrApp
  *
- * Client-library for the MonitrApp - http://monitr.io
+ * Client-library for the MonitrApp - http://MonitrApp.com
  *
  * @package		MonitrApp
  * @author		Phillip Dornauer
  * @copyright	Copyright (c) 2010 - 2012, Phillip Dornauer
  * @license		http://www.php.net/license/3_0.txt
  * @link		http://github.com/MonitrApp/monitr-php
- * @since		Version 0.0.1
+ * @since		Version 0.0.2
  * @filesource
  */
 
@@ -30,6 +30,8 @@ class Monitr{
     
     private $api_key = "";
     private $domain = "";
+    
+    private $errorLevel = E_WARNING;
     
     private static $instance = null;
     
@@ -76,6 +78,20 @@ class Monitr{
             $this->registerShutdownFunction();
     }
     
+    
+    /**
+     * Set the minimum error level
+     * 
+     * @access public
+     * @param string error level
+     *
+     */
+     public function setErrorLevel( $level ){
+         $this->errorLevel = $level;
+     }
+     
+     
+     
     /**
      * API Call
      * 
@@ -133,7 +149,10 @@ class Monitr{
      */
     public function log( $message, $error_code = E_WARNING ){
         $trace = debug_backtrace();
-                
+        
+        if( ! $error_code & $this->errorCode )
+            return false;
+        
         return $this->logError( $message, $error_code, $trace[0]["file"], $trace[0]["line"] );
     }
     
@@ -174,6 +193,11 @@ class Monitr{
      *
      */
     public function logError( $message, $code, $file, $line ){
+        
+        
+        if( ! $code & $this->errorCode )
+            return false;
+        
         return $this->api( "log", array(
             "message" => $message,
             "code"    => $code,
