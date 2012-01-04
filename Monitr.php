@@ -195,7 +195,7 @@ class Monitr{
     public function logError( $message, $code, $file, $line ){
         
         
-        if( ! $code & $this->errorCode )
+        if( ! $code & $this->errorLevel )
             return false;
         
         return $this->api( "log", array(
