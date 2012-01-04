@@ -149,10 +149,7 @@ class Monitr{
      */
     public function log( $message, $error_code = E_WARNING ){
         $trace = debug_backtrace();
-        
-        if( ! $error_code & $this->errorCode )
-            return false;
-        
+                
         return $this->logError( $message, $error_code, $trace[0]["file"], $trace[0]["line"] );
     }
     
@@ -195,7 +192,7 @@ class Monitr{
     public function logError( $message, $code, $file, $line ){
         
         
-        if( ! $code & $this->errorLevel )
+        if( ! ( $code & $this->errorLevel ) )
             return false;
         
         return $this->api( "log", array(
